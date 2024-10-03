@@ -1,4 +1,8 @@
 # parsedmarc docker image
+Last check : <!-- START last_run_sync --><!-- END last_run_sync -->
+
+Last Release : <!-- START latest_release_version --><!-- END latest_release_version -->
+
 
 ## What is parsedmarc
 
@@ -15,7 +19,7 @@ Credits and official repository here <https://github.com/domainaware/parsedmarc/
 ### If you just want to run the command
 
 ```sh
-docker run -it --rm xbblabs/parsedmarc --help
+docker run -it --rm thib3113/parsedmarc --help
 ```
 
 ### If you want to configure it with docker-compose.yml
@@ -25,7 +29,7 @@ version: "2.2"
 services:
  parsedmarc:
   container_name: "parsedmarc"
-  image: "xbblabs/parsedmarc:latest"
+  image: "thib3113/parsedmarc:latest"
   volumes:
    - ./parsedmarc.ini:/etc/parsedmarc.ini
    - geoip-data:/usr/share/GeoIP:ro
@@ -33,3 +37,7 @@ services:
   init: true
   restart: "unless-stopped"
 ```
+
+
+## Thanks
+this image is based on the work of @xbb [source](https://github.com/xbb/parsedmarc-docker)

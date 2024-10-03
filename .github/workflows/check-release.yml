@@ -1,0 +1,76 @@
+name: Check for New Release
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+env:
+  REMOTE_REPO: "domainaware/parsedmarc"
+  BASE_BRANCH: "main"   
+  
+jobs:
+  check-release:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Check for new release and create PR if needed
+      uses: actions/github-script@v6
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          const fs = require("fs");
+          const REMOTE_REPO = process.env.REMOTE_REPO;
+          const BASE_BRANCH = process.env.BASE_BRANCH;
+          const SYNC_DATE_STORAGE = ".last_check";
+
+          let lastReleaseSync;
+          try {
+              lastReleaseSync = fs.readFileSync(SYNC_DATE_STORAGE, "utf8").trim();
+          } catch (err) {
+              lastReleaseSync = "1970-01-01T00:00:00Z";
+          }
+
+          const latestRelease = await github.rest.repos.getLatestRelease({
+              owner: REMOTE_REPO.split("/")[0],
+              repo: REMOTE_REPO.split("/")[1],
+          });
+
+          const latestReleaseDate = latestRelease.data.published_at;
+          const latestReleaseVersion = latestRelease.data.tag_name;
+          console.log(`Last release published : ${latestReleaseDate}`);
+          console.log(`Last release builded : ${lastReleaseSync}`);
+
+          await exec("git", ["config", "--global", "user.name", "github-actions[bot]"]);
+          await exec("git", ["config", "--global", "user.email", "github-actions[bot]@users.noreply.github.com"]);
+
+          // Update readme
+          const now = new Date().toISOString();
+
+          let readmeContent = fs.readFileSync("README.md", "utf8");
+          const runCommentStart = "<!-- START last_run_sync -->";
+          const runCommentEnd = "<!-- END last_run_sync -->";
+          const versionCommentStart = "<!-- START latest_release_version -->";
+          const versionCommentEnd = "<!-- END latest_release_version -->";
+
+          const newRunSyncSection = `${runCommentStart}\`${now}\`${runCommentEnd}`;
+          const newVersionSection = `${versionCommentStart}\`${latestReleaseVersion}\`${versionCommentEnd}`;
+          readmeContent = readmeContent.replace(new RegExp(`${runCommentStart}[\\s\\S]*?${runCommentEnd}`), newRunSyncSection);
+          readmeContent = readmeContent.replace(
+              new RegExp(`${versionCommentStart}[\\s\\S]*?${versionCommentEnd}`),
+              newVersionSection
+          );
+          fs.writeFileSync("README.md", readmeContent);
+
+          fs.writeFileSync(SYNC_DATE_STORAGE, now);
+
+          await exec("git", ["commit", "-m", `sync - ${now}`]);
+          await exec("git", ["push"]);
+
+          if (new Date(latestReleaseDate) > new Date(lastReleaseSync)) {
+              console.log("new release detected !");
+          } else {
+              console.log("no new release.");
+          }
