@@ -22,7 +22,6 @@ jobs:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
           const fs = require("fs");
-          const exec = require('@actions/exec');
           const REMOTE_REPO = process.env.REMOTE_REPO;
           const BASE_BRANCH = process.env.BASE_BRANCH;
           const SYNC_DATE_STORAGE = ".last_check";
@@ -44,8 +43,8 @@ jobs:
           console.log(`Last release published : ${latestReleaseDate}`);
           console.log(`Last release builded : ${lastReleaseSync}`);
 
-          await exec("git", ["config", "--global", "user.name", "github-actions[bot]"]);
-          await exec("git", ["config", "--global", "user.email", "github-actions[bot]@users.noreply.github.com"]);
+          await exec.exec("git", ["config", "--global", "user.name", "github-actions[bot]"]);
+          await exec.exec("git", ["config", "--global", "user.email", "github-actions[bot]@users.noreply.github.com"]);
 
           // Update readme
           const now = new Date().toISOString();
@@ -67,8 +66,8 @@ jobs:
 
           fs.writeFileSync(SYNC_DATE_STORAGE, now);
 
-          await exec("git", ["commit", "-m", `sync - ${now}`]);
-          await exec("git", ["push"]);
+          await exec.exec("git", ["commit", "-m", `sync - ${now}`]);
+          await exec.exec("git", ["push"]);
 
           if (new Date(latestReleaseDate) > new Date(lastReleaseSync)) {
               console.log("new release detected !");
