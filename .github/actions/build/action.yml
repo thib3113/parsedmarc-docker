@@ -64,8 +64,7 @@ runs:
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
         push: true
-        build-args:
-          TAG: ${{ inputs.VERSION }}
+        build-args: "TAG=${{ inputs.VERSION }}"
 
     - name: Check for new release and create PR if needed
       id: release-infos
