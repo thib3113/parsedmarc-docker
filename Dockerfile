@@ -1,10 +1,10 @@
 FROM python:3.9-slim
 
-ARG REF=b10cc06441ab5c43882072a1a6b3ae90047b9a20
+ARG TAG=8.15.1
 
 RUN apt-get update \
     && apt-get -y upgrade \
-    && pip install -U https://github.com/domainaware/parsedmarc/archive/$REF.tar.gz \
+    && pip install -U https://github.com/domainaware/parsedmarc/archive/refs/tags/${TAG}.tar.gz \
     && rm -rf /root/.cache/ \
     && apt-get autoremove -y --purge \
     && rm -rf /var/lib/{apt,dpkg}/
