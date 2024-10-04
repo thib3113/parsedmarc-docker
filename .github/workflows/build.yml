@@ -1,7 +1,6 @@
 name: Build image
 on:
   release:
-    types: [published]
 
 jobs:
   build:
