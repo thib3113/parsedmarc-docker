@@ -87,7 +87,7 @@ jobs:
           }
 
     - uses: ./.github/actions/build
-      if: ${{ steps.release-infos.outputs }}
+      if: ${{ steps.release-infos.outputs.version != '' }}
       with:
         VERSION: ${{ steps.release-infos.outputs.version }}
         RELEASE_BODY: ${{ steps.release-infos.outputs.releaseBody }}
