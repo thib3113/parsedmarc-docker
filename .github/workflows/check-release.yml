@@ -78,10 +78,10 @@ jobs:
           if (new Date(latestReleaseDate) > new Date(lastReleaseSync)) {
               console.log("new release detected !");
 
-              return {
+              return JSON.stringify({
                 version: latestReleaseVersion,
                 releaseBody: `New version builded : [${latestReleaseVersion}](${latestRelease.data.html_url})`
-              };
+              });
             } else {
               console.log("no new release.");
           }
