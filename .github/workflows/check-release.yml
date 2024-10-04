@@ -72,6 +72,26 @@ jobs:
 
           if (new Date(latestReleaseDate) > new Date(lastReleaseSync)) {
               console.log("new release detected !");
+
+              
+              await exec.exec("git", ["tag", latestReleaseVersion]);
+              await exec.exec("git", ["push", "origin", "tag", latestReleaseVersion]);
+
+              await github.rest.repos.createRelease({
+                draft: false,
+                generate_release_notes: false,
+                name: latestReleaseVersion,
+                owner: context.repo.owner,
+                prerelease: false,
+                repo: context.repo.repo,
+                tag_name: latestReleaseVersion,
+                body: `New version builded : [${latestReleaseVersion}](${latestRelease.data.html_url})`
+              });
+
+            } catch (error) {
+              core.setFailed(error.message);
+            }
+
           } else {
               console.log("no new release.");
           }
