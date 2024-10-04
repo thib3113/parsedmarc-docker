@@ -64,6 +64,11 @@ runs:
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
+
+            await exec.exec("git", ["tag", process.env.TAG_VERSION]);
+            await exec.exec("git", ["push", "origin", "tag", process.env.TAG_VERSION]);
+
+
             await github.rest.repos.createRelease({
               draft: false,
               generate_release_notes: false,

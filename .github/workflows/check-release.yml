@@ -79,24 +79,10 @@ jobs:
               console.log("new release detected !");
 
               return {
-                version: latestReleaseVersion
+                version: latestReleaseVersion,
                 releaseBody: `New version builded : [${latestReleaseVersion}](${latestRelease.data.html_url})`
               };
-              
-              await exec.exec("git", ["tag", latestReleaseVersion]);
-              await exec.exec("git", ["push", "origin", "tag", latestReleaseVersion]);
-
-              await github.rest.repos.createRelease({
-                draft: false,
-                generate_release_notes: false,
-                name: latestReleaseVersion,
-                owner: context.repo.owner,
-                prerelease: false,
-                repo: context.repo.repo,
-                tag_name: latestReleaseVersion,
-                body: `New version builded : [${latestReleaseVersion}](${latestRelease.data.html_url})`
-              });
-          } else {
+            } else {
               console.log("no new release.");
           }
 
