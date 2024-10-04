@@ -87,11 +87,6 @@ jobs:
                 tag_name: latestReleaseVersion,
                 body: `New version builded : [${latestReleaseVersion}](${latestRelease.data.html_url})`
               });
-
-            } catch (error) {
-              core.setFailed(error.message);
-            }
-
           } else {
               console.log("no new release.");
           }
