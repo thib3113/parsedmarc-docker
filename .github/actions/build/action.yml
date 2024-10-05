@@ -14,6 +14,9 @@ inputs:
     description: 'github token'
     required: true
 
+env:
+  TEST_TAG: thib3113/parsedmarc:test
+
 runs:
   using: "composite"
   steps:
@@ -51,6 +54,17 @@ runs:
       with:
         username: ${{ inputs.DOCKERHUB_USERNAME }}
         password: ${{ inputs.DOCKERHUB_TOKEN }}
+
+    - name: Build and export to Docker
+      uses: docker/build-push-action@v6
+      with:
+        load: true
+        tags: ${{ env.TEST_TAG }}
+    
+    - name: Test
+      run: |
+        docker run -v ".github/datas/reports/samples/aggregate/!example.com!1538204542!1538463818.xml:/!example.com!1538204542!1538463818.xml" --rm ${{ env.TEST_TAG }} --verbose /!example.com!1538204542!1538463818.xml
+
 
     - name: Build and push image
       id: build-and-push
