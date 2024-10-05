@@ -4,6 +4,7 @@
     "config:recommended",
     "docker:pinDigests",
     "helpers:pinGitHubActionDigests",
-    ":configMigration"
+    ":configMigration",
+    ":automergeDigest"
   ]
 }
