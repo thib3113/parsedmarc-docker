@@ -66,7 +66,7 @@ runs:
       env:
         TEST_TAG: ${{ inputs.TEST_TAG }}
       run: |
-        docker run -v ".github/datas/reports/samples/aggregate:/aggregate" --rm ${TEST_TAG} --verbose /aggregate/!example.com!1538204542!1538463818.xml
+        docker run -v "${GITHUB_WORKSPACE}/.github/datas/reports/samples/aggregate:/aggregate" --rm ${TEST_TAG} --verbose /aggregate/!example.com!1538204542!1538463818.xml
 
 
     - name: Build and push image
