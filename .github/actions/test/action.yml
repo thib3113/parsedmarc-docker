@@ -1,5 +1,8 @@
 name: 'Test docker image'
 inputs:
+  VERSION:
+    description: 'The new version'
+    required: true
   TEST_TAG:
     required: false
     default: thib3113/parsedmarc:test
