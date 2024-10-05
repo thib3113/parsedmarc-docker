@@ -1,5 +1,3 @@
-Work in progress
-
 # parsedmarc docker image
 Last check : <!-- START last_run_sync -->`2024-10-05T13:18:53.809Z`<!-- END last_run_sync -->
 
