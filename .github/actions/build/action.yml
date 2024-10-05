@@ -60,6 +60,8 @@ runs:
       with:
         load: true
         tags: ${{ inputs.TEST_TAG }}
+        build-args: "TAG=${{ inputs.VERSION }}"
+        context: .
     
     - name: Test
       shell: bash
