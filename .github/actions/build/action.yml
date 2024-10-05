@@ -62,6 +62,7 @@ runs:
         tags: ${{ env.TEST_TAG }}
     
     - name: Test
+      shell: bash
       run: |
         docker run -v ".github/datas/reports/samples/aggregate/!example.com!1538204542!1538463818.xml:/!example.com!1538204542!1538463818.xml" --rm ${{ env.TEST_TAG }} --verbose /!example.com!1538204542!1538463818.xml
 
