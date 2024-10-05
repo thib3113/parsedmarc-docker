@@ -13,9 +13,9 @@ inputs:
   GITHUB_TOKEN:
     description: 'github token'
     required: true
-
-env:
-  TEST_TAG: thib3113/parsedmarc:test
+  TEST_TAG:
+    required: false
+    default: thib3113/parsedmarc:test
 
 runs:
   using: "composite"
@@ -59,12 +59,14 @@ runs:
       uses: docker/build-push-action@v6
       with:
         load: true
-        tags: ${{ env.TEST_TAG }}
+        tags: ${{ inputs.TEST_TAG }}
     
     - name: Test
       shell: bash
+      env:
+        TEST_TAG: ${{ inputs.TEST_TAG }}
       run: |
-        docker run -v ".github/datas/reports/samples/aggregate/!example.com!1538204542!1538463818.xml:/!example.com!1538204542!1538463818.xml" --rm ${{ env.TEST_TAG }} --verbose /!example.com!1538204542!1538463818.xml
+        docker run -v ".github/datas/reports/samples/aggregate/!example.com!1538204542!1538463818.xml:/!example.com!1538204542!1538463818.xml" --rm ${TEST_TAG} --verbose /!example.com!1538204542!1538463818.xml
 
 
     - name: Build and push image
