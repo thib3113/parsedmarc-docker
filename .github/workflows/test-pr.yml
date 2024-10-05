@@ -18,21 +18,11 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
 
-    - name: get last release
+    - uses: ./.github/actions/get-last-release-version
       id: release-infos
-      uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7.0.1
       with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        script: |
-          const REMOTE_REPO = process.env.REMOTE_REPO;
-
-          const latestRelease = await github.rest.repos.getLatestRelease({
-              owner: REMOTE_REPO.split("/")[0],
-              repo: REMOTE_REPO.split("/")[1],
-          });
-
-          const latestReleaseVersion = latestRelease.data.tag_name;
-          core.setOutput('version', latestReleaseVersion);
+        REPO: ${{ env.REMOTE_REPO }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - uses: ./.github/actions/test
       if: ${{ steps.release-infos.outputs.version != '' }}
