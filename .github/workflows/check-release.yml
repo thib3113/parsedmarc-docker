@@ -79,7 +79,6 @@ jobs:
               console.log("new release detected !");
 
               core.setOutput('version', latestReleaseVersion);
-              core.setOutput('releaseBody', `New version builded : [${latestReleaseVersion}](${latestRelease.data.html_url})`);
             } else {
               console.log("no new release.");
           }
@@ -88,7 +87,6 @@ jobs:
       if: ${{ steps.release-infos.outputs.version != '' }}
       with:
         VERSION: ${{ steps.release-infos.outputs.version }}
-        RELEASE_BODY: ${{ steps.release-infos.outputs.releaseBody }}
         DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
         DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

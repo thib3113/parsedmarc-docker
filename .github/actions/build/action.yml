@@ -3,9 +3,6 @@ inputs:
   VERSION:
     description: 'The new version'
     required: true
-  RELEASE_BODY:
-    description: 'release body'
-    required: true
   DOCKERHUB_USERNAME:
     description: 'docker username'
     sensitive: true
@@ -65,27 +62,3 @@ runs:
         labels: ${{ steps.meta.outputs.labels }}
         push: true
         build-args: "TAG=${{ inputs.VERSION }}"
-
-    - name: Check for new release and create PR if needed
-      id: release-infos
-      uses: actions/github-script@v7.0.1
-      env:
-        TAG_VERSION: ${{ inputs.VERSION }}
-        RELEASE_BODY: ${{ inputs.RELEASE_BODY }}
-      with:
-        github-token: ${{ inputs.GITHUB_TOKEN }}
-        script: |
-
-            await exec.exec("git", ["tag", process.env.TAG_VERSION]);
-            await exec.exec("git", ["push", "origin", "tag", process.env.TAG_VERSION]);
-
-            await github.rest.repos.createRelease({
-              draft: false,
-              generate_release_notes: false,
-              name: process.env.TAG_VERSION,
-              owner: context.repo.owner,
-              prerelease: false,
-              repo: context.repo.repo,
-              tag_name: process.env.TAG_VERSION,
-              body: process.env.RELEASE_BODY
-            });
