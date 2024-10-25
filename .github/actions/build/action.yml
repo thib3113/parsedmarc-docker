@@ -42,9 +42,9 @@ runs:
           ghcr.io/${{ github.repository_owner }}/parsedmarc
         tags: |
           type=raw,value=latest,enable={{is_default_branch}}
-          type=semver,pattern={{version}}
-          type=semver,pattern={{major}}.{{minor}}
-          type=semver,pattern={{major}}
+          type=semver,pattern={{version}},value=${{ inputs.VERSION }}
+          type=semver,pattern={{major}}.{{minor}},value=${{ inputs.VERSION }}
+          type=semver,pattern={{major}},value=${{ inputs.VERSION }}
 
     - name: Login to Github Container Registry
       uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567 # v3.3.0
