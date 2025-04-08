@@ -1,4 +1,4 @@
-FROM python:3.13-slim@sha256:8f3aba466a471c0ab903dbd7cb979abd4bda370b04789d25440cc90372b50e04
+FROM python:3.13-slim@sha256:2999bbd36abf092b32ffecf85c602d61b299de35ef9ebec341e06b0fecba76c6
 
 ARG TAG=8.14.0
 
