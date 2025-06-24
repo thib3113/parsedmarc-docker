@@ -1,5 +1,5 @@
 # parsedmarc docker image
-Last check : <!-- START last_run_sync -->`2025-06-23T00:37:41.187Z`<!-- END last_run_sync -->
+Last check : <!-- START last_run_sync -->`2025-06-24T00:34:56.713Z`<!-- END last_run_sync -->
 
 Last Release : <!-- START latest_release_version -->`8.18.5`<!-- END latest_release_version -->
 
