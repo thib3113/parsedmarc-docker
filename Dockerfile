@@ -4,9 +4,10 @@ ARG TAG=8.14.0
 
 RUN apt update \
     && apt -y upgrade \
-    && apt install -y libemail-outlook-message-perl \
-    && pip install -U https://github.com/domainaware/parsedmarc/archive/refs/tags/${TAG}.tar.gz \
+    && apt install -y libemail-outlook-message-perl build-essential libpq-dev libpq5 \
+    && pip install -U "parsedmarc[postgresql] @ https://github.com/domainaware/parsedmarc/archive/refs/tags/${TAG}.tar.gz" \
     && rm -rf /root/.cache/ \
+    && apt remove -y build-essential libpq-dev \
     && apt autoremove -y --purge \
     && rm -rf /var/lib/{apt,dpkg}/
 
