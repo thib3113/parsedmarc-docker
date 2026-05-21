@@ -8,7 +8,7 @@ Last Release : <!-- START latest_release_version -->`9.11.2`<!-- END latest_rele
 
 parsedmarc is an open source DMARC report analyzer which can parse
 the reports from IMAP and output them as JSON or send
-them to Elasticsearch and much more.
+them to Elasticsearch, PostgreSQL and much more.
 
 See all the features from the official documentation <https://domainaware.github.io/parsedmarc>
 
