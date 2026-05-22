@@ -14,6 +14,11 @@ See all the features from the official documentation <https://domainaware.github
 
 Credits and official repository here <https://github.com/domainaware/parsedmarc/>
 
+
+## Features
+
+This image includes the optional dependencies for the **PostgreSQL storage backend** introduced in parsedmarc v10. You can configure it just like any other backend using the `[postgresql]` section in your configuration file or via `PARSEDMARC_POSTGRESQL_*` environment variables.
+
 ## How to use this image
 
 ### If you just want to run the command
